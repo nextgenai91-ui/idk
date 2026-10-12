@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: dinero-social-scraper
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /
+    envVars:
+      - key: SCRAPER_TOKEN
+        sync: false          # must match SOCIAL_SCRAPER_TOKEN in Dinero
+      - key: MAX_CONCURRENCY
+        value: "1"
+      - key: WEB_CONCURRENCY      # single uvicorn worker = one Python heap
+        value: "1"
+      - key: MALLOC_ARENA_MAX     # stop glibc fragmenting RAM across threads
+        value: "2"
+      - key: PYTHONMALLOC
+        value: malloc
+      - key: INSTAGRAM_USER
+        sync: false
+      - key: INSTAGRAM_PASSWORD
+        sync: false
+      - key: TIKTOK_MS_TOKEN
+        sync: false
+      - key: LINKEDIN_EMAIL
+        sync: false
+      - key: LINKEDIN_PASSWORD
+        sync: false
